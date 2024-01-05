@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrello</title>
+</head>
+<body>
+<div>
+    <div>
+    <div>
+        <h3>ID</h3>
+        <h3>Nome Prodotto</h3>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    </div>
+    </div>
+    <tbody>
+    <div th:each="cart : ${cart}">
+        <div th:text="${cart.getProdotto().getNome()}"></div>
+        <div>
+            <button name="meno" th:onclick="'edit(' + ${cart.getProdotto().getId()} + ', \'sott\')'"> - </button>
+            <p th:id="${cart.getProdotto().getId()}" th:text="${cart.getQuantita()}"></p>
+            <button name="add" th:onclick="'edit(' + ${cart.getProdotto().getId()} + ', \'add\')'"> + </button>
+        </div>
+        <!-- Aggiungi altre colonne necessarie -->
+    </div>
+    <script>
+        function edit(prodotto_id, string_edit) {
+
+            $.ajax({
+                url: '/carrello/edit_prodotto',
+                data: {
+                    prodotto_id: prodotto_id,
+                    edit : string_edit
+
+                },
+                type:'POST',
+                success: function(response) {
+                    alert(response);
+                    $("#"+prodotto_id).text(response);
+
+                },
+
+            });
+        }
+
+    </script>
+    </tbody>
+</div>
+</body>
+</html>
